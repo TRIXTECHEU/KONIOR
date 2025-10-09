@@ -10,7 +10,12 @@
     enforceEveryMs: 250
   };
 
-  var SS = { SUPPRESS: 'vf_payload_suppressed_session', CHAT_OPEN: 'vf_chat_is_open' };
+  // Přidal jsem nový klíč do objektu SS
+  var SS = {
+    SUPPRESS: 'vf_payload_suppressed_session',
+    CHAT_OPEN: 'vf_chat_is_open',
+    USER_OPENED_CHAT: 'vf_user_opened_chat' // flag, když uživatel otevřel chat
+  };
   var LS = { LAST_CLOSE: 'vf_last_close_at' };
 
   var MSG = {
@@ -118,8 +123,14 @@
 
   function canShow(){
     if (!vfReady) return false;
-    if (chatOpen || getSS(SS.CHAT_OPEN)==='1' || detectChatVisible()) return false;
-    if (getSS(SS.SUPPRESS)==='1') return false;
+    // Kontrola, jestli je chat viditelný
+    if (detectChatVisible()) return false;
+    // Kontrola, jestli je chat otevřený (nové)
+    if (getSS(SS.CHAT_OPEN) === '1') return false; // *** přidané ***
+    // Kontrola, jestli uživatel chat otevřel
+    if (getSS(SS.USER_OPENED_CHAT) === '1') return false;
+    // Kontrola, jestli je suppress flag nastaven
+    if (getSS(SS.SUPPRESS) === '1') return false;
     if (!metDwell || !metScroll) return false;
     if (within(getLS(LS.LAST_CLOSE), UX.closeCooldownMs)) return false;
     return true;
@@ -161,8 +172,17 @@
     clearInterval(enforceTimer);
     enforceTimer = setInterval(function(){
       var openNow = detectChatVisible();
-      if (openNow && !chatOpen){ chatOpen = true; setSS(SS.CHAT_OPEN,'1'); hideCTA(); try{ window.voiceflow.chat?.proactive?.clear(); }catch(_){} }
-      if (!openNow && chatOpen){ chatOpen = false; rmSS(SS.CHAT_OPEN); }
+      if (openNow && !chatOpen){ 
+        chatOpen = true; 
+        setSS(SS.CHAT_OPEN,'1'); 
+        hideCTA(); 
+      }
+      if (!openNow && chatOpen){ 
+        chatOpen = false; 
+        // při zavření chatbota reset flagu
+        setSS(SS.CHAT_OPEN, '0'); 
+        setLS(LS.LAST_CLOSE, String(now())); 
+      }
       if (!openNow && !visible && canShow()){ updateMessage(); showCTA(); }
     }, UX.enforceEveryMs);
   }
@@ -171,11 +191,36 @@
     var target = document.body;
     var mo = new MutationObserver(function(){
       if (detectChatVisible()){
-        chatOpen = true; setSS(SS.CHAT_OPEN,'1'); hideCTA();
+        chatOpen = true; 
+        setSS(SS.CHAT_OPEN,'1'); 
+        hideCTA();
       }
     });
     mo.observe(target, { childList:true, subtree:true, attributes:true, attributeFilter:['style','class'] });
   }
+
+  // Funkce, která zaznamená otevření chatbota a zakáže CTA
+  function markChatOpened(){
+    setSS(SS.CHAT_OPEN, '1');
+    setSS(SS.USER_OPENED_CHAT, '1');
+    setSS(SS.SUPPRESS, '1'); // přidání flagu, že uživatel otevřel chat nebo klikl na "PORAĎ MI"
+    chatOpen = true;
+    hideCTA();
+  }
+
+  // Příklad: pokud máš tlačítko nebo jinou událost, která spouští otevření
+  // Uprav si podle svého
+  function bindOpenChatButton(){
+    var btn = document.getElementById('vfOpenChat');
+    if (btn){
+      btn.addEventListener('click', function(){
+        try { window.voiceflow.chat.open(); } catch(_) {}
+        markChatOpened(); // zaznamenat otevření a zakázat CTA
+      });
+    }
+  }
+
+  // Pokud máš jiný způsob otevření, přidej do něj volání markChatOpened()
 
   setTimeout(function(){ boot = false; }, UX.bootWindowMs);
   addEventListener('hashchange', updateMessage);
@@ -187,15 +232,17 @@
 
     if (data.type === 'voiceflow:open'){
       setSS(SS.CHAT_OPEN,'1');
+      setSS(SS.USER_OPENED_CHAT,'1');
+      setSS(SS.SUPPRESS, '1'); // při otevření chatu zakázat CTA
       chatOpen = true;
       hideCTA();
-      try { window.voiceflow.chat.proactive.clear(); } catch(_){}
     }
     if (data.type === 'voiceflow:close'){
       rmSS(SS.CHAT_OPEN);
       chatOpen = false;
+      rmSS(SS.USER_OPENED_CHAT);
       setLS(LS.LAST_CLOSE, String(now()));
-      setTimeout(function(){ if (canShow()){ updateMessage(); showCTA(); } }, UX.closeCooldownMs + UX.showDelayMs);
+      if (canShow()){ updateMessage(); showCTA(); }
     }
   });
 
@@ -209,7 +256,11 @@
       }
     }catch(_){}
 
-    if (detectChatVisible() || getSS(SS.CHAT_OPEN)==='1'){ chatOpen = true; setSS(SS.CHAT_OPEN,'1'); hideCTA(); try{ api.proactive.clear(); }catch(_){} }
+    if (detectChatVisible() || getSS(SS.CHAT_OPEN)==='1'){ 
+      chatOpen = true; 
+      setSS(SS.CHAT_OPEN,'1'); 
+      hideCTA(); 
+    }
 
     observeVF();
     startEnforcer();
@@ -222,17 +273,25 @@
     btnCloseEl = document.getElementById('vfCtaClose');
     descEl     = document.getElementById('vfCtaDesc');
 
+    // Otevření chatbota tlačítkem
     btnOpenEl?.addEventListener('click', function(){
-      hideCTA();
-      try { window.voiceflow.chat.open(); } catch(e){ window.__vfOpenAfterLoad = true; }
+      try { window.voiceflow.chat.open(); } catch(_) {}
+      setSS(SS.SUPPRESS, '1'); // zakázat znovu zobrazení CTA po kliknutí
+      markChatOpened(); // zaznamenat otevření
     });
+
+    // Zavření CTA
     btnCloseEl?.addEventListener('click', function(){ setSS(SS.SUPPRESS,'1'); hideCTA(); });
   }
 
+  // Inicializace
   function init(){
     injectCSS();
     injectCTA();
     bindCTA();
+    // Přidat také bind na tlačítko nebo událost, která otevře chat
+    bindOpenChatButton();
+
     scheduleDwell();
     scheduleLongStay();
     watchScroll();
@@ -240,9 +299,17 @@
     observeVF();
     document.addEventListener('visibilitychange', function(){ if (document.visibilityState==='visible' && !metDwell) scheduleDwell(); });
 
-    if (detectChatVisible() || getSS(SS.CHAT_OPEN)==='1'){ chatOpen = true; setSS(SS.CHAT_OPEN,'1'); hideCTA(); }
+    // Pokud je chat otevřen nebo flag, nezobrazuj zprávu
+    if (detectChatVisible() || getSS(SS.CHAT_OPEN)==='1' || getSS(SS.USER_OPENED_CHAT)==='1'){
+      chatOpen = true;
+      setSS(SS.CHAT_OPEN,'1');
+      hideCTA();
+    } else {
+      maybeShow();
+    }
   }
 
   window.PayloadWindow = { show: showCTA, hide: hideCTA };
   if (document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', init); } else { init(); }
+
 })(window, document);
