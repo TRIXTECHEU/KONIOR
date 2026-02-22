@@ -1,603 +1,465 @@
-/* TrixTech s.r.o. @2025 */
+/* TrixTech s.r.o. @2026 */
+@import url('https://trixtecheu.github.io/CLIENTS/styles/default-chat-widget.css');
 
-/* 0) Layering */
-/* Keep the chat widget above all page content */
-.vfrc-widget {
-  z-index: 999999 !important;
-}
+:host {
+  /* 1) HEADER AND AVATAR */
+  /* 1.1) Header container */
+  --header-bg: #FFFFFF;
+  --header-padding: 12px 16px 12px 18px;
+  --header-border: none;
+  --header-border-radius: 0;
+  --header-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --header-z-index: 10;
 
-/* 0.1) Subheader icon, text */
-.g3dqfd2 {
-  object-fit: cover !important;
-  object-position: center !important;
-  transform: none !important;
-  animation: none !important;
-  transition: none !important;
-  clip-path: circle(50% at 50% 50%);
-  overflow: hidden;
-  -webkit-user-drag: none !important;
-  pointer-events: none !important;
-}
-
-.dio4eo3 {
-  background-color: rgba(255, 255, 255, 0) !important;
-  clip-path: circle(50% at 50% 50%);
-  -webkit-user-drag: none !important;
-  pointer-events: none !important;
-  position: -75px !important;
-}
+  /* 1.2) Avatar image in header */
+  --header-avatar-height: 135%;
+  --header-avatar-max-height: 135%;
+  --header-avatar-radius: 0;
 
 
-.dio4eo4::before {
-  content: "Konior & Partners" !important;
-  font-size: 16px !important;
-  color: #656d75 !important;
-}
+  /* 2) HEADER ICONS (refresh, close) */
+  /* 2.1) Base icon settings */
+  --icon-base-transform: translate(-50%, -50%) scale(1);
+  --icon-base-filter: brightness(1);
+  --icon-transition: transform .6s ease-in-out, filter .8s ease-in-out;
+  --icon-btn-size: 40px;
+  --icon-focus-color: rgba(0, 123, 204, 0.35);
+  --icon-focus-radius: 8px;
 
-.dio4eo5::before {
-  content: "vás virtuální AI asistent" !important;
-  font-size: 14px !important;
-  color: #656d75 !important;
-}
+  /* 2.2) Refresh icon */
+  --icon-refresh-url: url("https://trixtecheu.github.io/KONIOR/images/icons/icon-refresh.svg");
+  --icon-refresh-size: 38px;
+  --icon-refresh-hover-transform: translate(-50%, -50%) scale(1.2) rotate(180deg);
 
-.vfrc-avatar {
-  background-color: transparent !important;
-}
+  /* 2.3) Close icon */
+  --icon-close-url: url("https://trixtecheu.github.io/KONIOR/images/icons/icon-close.svg");
+  --icon-close-size: 28px;
+  --icon-close-hover-transform: translate(-50%, -50%) scale(1.2);
+  --icon-hover-filter: brightness(1.1);
 
-.g931q12 {
-  box-shadow: none !important;
-  border: none !important;
-}
 
-.ticwq62 {
-  font-size: 0 !important;
-  position: relative;
-  background-color: transparent;
-}
+  /* 3) SYSTEM BUTTONS (start new chat, cancel) */
+  /* 3.1) Shared button properties */
+  --btn-font-size: 14px;
+  --btn-font-weight: 600;
+  --btn-padding: 24px 0px 12px;
+  --btn-radius: 5px;
+  --btn-focus-shadow: rgba(0, 123, 204, 0.25);
+  --btn-border-width: 2px;
 
-/* 1) Header */
-/* Header color */
-.jyiuei2 {
-  background-color: #FFF !important;
-}
-
-/* Header avatar */
-div[class*="vfrc-header"] img.vfrc-avatar {
-  display: block !important;
-  width: 135px !important;
-  height: auto !important;
-  object-fit: contain !important;
-  transform: translateX(-2%) !important;
-  border-radius: 0 !important;
-  user-select: none !important;
-  pointer-events: none !important;
-  -webkit-user-drag: none !important;
-}
-
-/* Header icons: replace inline SVG*/
-.vfrc-header .vfrc-icon._1t7e06e0 svg {
-  display: none !important;
-}
-
-.vfrc-header .vfrc-icon._1t7e06e0::before {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) scale(1.2) !important;
-  width: 32px !important;
-  height: 32px !important;
-  background-image: url('https://i.imgur.com/j6c2kGb.png') !important;
-  background-size: contain !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  will-change: transform, filter !important;
-  transition: transform 0.6s ease-in-out, filter 0.8s ease-in-out !important;
-  filter: brightness(1) !important;
-}
-
-.vfrc-header button:nth-of-type(1) .vfrc-icon._1t7e06e0::before {
-  width: 32px !important;
-  height: 32px !important;
-  background-image: url('https://i.imgur.com/j6c2kGb.png') !important;
-}
-
-.vfrc-header button:nth-of-type(1) .vfrc-icon._1t7e06e0:hover::before {
-  transform: translate(-50%, -50%) scale(1.4) rotate(-180deg) !important;
-  filter: brightness(1.1) !important;
-}
-
-.vfrc-header button:nth-of-type(2) .vfrc-icon._1t7e06e0::before {
-  width: 32px !important;
-  height: 32px !important;
-  background-image: url('https://i.imgur.com/SUPIImq.png') !important;
-}
-
-.vfrc-header button:nth-of-type(2) .vfrc-icon._1t7e06e0:hover::before {
-  transform: translate(-50%, -50%) scale(1.42) !important;
-  filter: brightness(1.1) !important;
-}
-
-._1t7e06e0 {
-  transform: translateX(-0.25px) !important;
-}
-
-@media (min-width: 1440px) {
-  .vfrc-header button:nth-of-type(1) .vfrc-icon._1t7e06e0::before {
-    width: 32px !important;
-    height: 32px !important;
-  }
-}
-
-/* 2) Buttons (system labels) */
-/* CZ label overrides: replace built-in text */
-:is(button.vfrc-button[label="Start new chat"], #vfrc-start-chat), button.vfrc-button[label="Cancel"] {
-  position: relative !important;
-  color: transparent !important;
-  transition: background-color .2s ease, color .2s ease !important;
-}
-:is(button.vfrc-button[label="Start new chat"], #vfrc-start-chat) span, button.vfrc-button[label="Cancel"] span {
-  display: none !important;
-}
-
-:is(button.vfrc-button[label="Start new chat"], #vfrc-start-chat) {
-  background-color: #eeb710 !important;
-  border-radius: 5px 5px !important;
-}
-
-:is(button.vfrc-button[label="Start new chat"], #vfrc-start-chat)::before {
-  content: "SPUSTIT NOVÝ CHAT" !important;
-  position: absolute !important;
-  top: 50% !important; left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  color: #FFF !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  font-family: inherit !important;
-  pointer-events: none !important;
-  white-space: nowrap !important;
-  border-radius: 5px 5px !important;
-}
-
-:is(button.vfrc-button[label="Start new chat"], #vfrc-start-chat):hover {
-  background-color: #eeb710 !important;
-  border-radius: 5px 5px !important;
-}
-:is(button.vfrc-button[label="Start new chat"], #vfrc-start-chat):hover::before {
-  color: #ffffff !important;
-}
-
-button.vfrc-button[label="Cancel"]::before {
-  content: "ZRUŠIT" !important;
-  position: absolute !important;
-  top: 50% !important; left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  color: #1a1e23 !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  font-family: inherit !important;
-  pointer-events: none !important;
-  white-space: nowrap !important;
-}
-
-button.vfrc-button[label="Cancel"]{
-  border-radius: 5px 5px !important;
-}
-
-/* 3) Chat chrome */
-/* Chat background */
-:is(.vfrc-chat, .s9t60i1, .vfrc-chat__dialog) {
-  background-image: url("https://i.imgur.com/qC5EetS.jpeg") !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-color: transparent !important;
-}
-
-._1vj16245 {
-  background: none;
-}
-
-/* 4) Typography & bubbles */
-/* Text alignment in chat */
-:is(.vfrc-message,[class*="vfrc-chat-dialog"],[class*="knxm730"],[class*="_15emaa"],[class*="vfrc-user-response"],[class*="vfrc-system-response"],[class*="g3dqfd"],[class*="response-content"],[class*="streaming-response-container"]) {
-  text-align: left !important;
-}
-
-.vfrc-message, .vfrc-message * {
-  text-align: left !important;
-}
-
-.vfrc-message > * { 
-  margin-left: 0 !important; 
-}
-
-:is(div[class*="vfrc-message _11kfxpg0"], ._15emaa41, ._1lbxmyd0, .g3dqfd8) {
-  border-radius: 15px !important;
-}
-
-/* 5) Main CTAs */
-/* Main buttons */
-._1q15b0b1 {
-  font-size: 14px !important;
-  color: #FFF !important;
-  background-color: #eeb710 !important;
-  border: none !important;
-  transition: background-color 0.3s ease, color 0.3s ease !important;
-  height: 40px !important;
-  font-weight: 600 !important;
-  border-radius: 5px 5px !important;
-  padding-top: 2px !important;
-  padding: 0px 18px 0px 18px !important;
-}
-
-._1q15b0b1:hover {
-  background-color: #eeb710 !important;
-  color: #fff !important;
-  cursor: pointer !important;
-}
-
-/* 6) System states */
-/* End-of-chat label */ 
-.ticwq62 {
-  font-size: 0 !important;
-  position: relative !important;
-  line-height: 0 !important;
-  background-color: transparent !important;
-}
-
-.ticwq62::before {
-  content: "Chat byl ukončen" !important;
-  display: inline-block !important;
-  position: relative !important;
-  font-size: 11.5px !important;
-  line-height: 1.4 !important;
-  color: #000 !important;
-  white-space: nowrap !important;
-}
-
-/* 7) Carousel */
-/* Carousel custom formatting */
-._1lbxmyd1 {
-  display: block !important;
-  width: calc(100% - 30px) !important;
-  margin: 15px 15px 0 !important;
-  height: 140px !important;
-  object-fit: cover !important;
-  border-radius: 15px 15px 0 0 !important;
-  box-sizing: border-box !important;
-  -webkit-user-drag: none !important;
-}
-
-/* Carousel description */
-.vfrc-card--description._1lbxmyd5 {
-  font-size: 12px !important;
-}
-
-/* Carousel main buttons */
-.vfrc-card button {
-  height: 40px !important;
-  padding-top: 2px !important;
-  border-radius: 5px 5px !important;
-  border: none !important;
-  font-weight: 600 !important;
-  color: #FFF !important;
-  background-color: #eeb710 !important;
-  transition: background-color 0.3s ease, color 0.3s ease !important;
-}
-
-.vfrc-card button:hover {
-  background-color: #eeb710 !important;
-  color: #fff !important;
-  cursor: pointer !important;
-}
-
-/* Carousel next buttons */
-.betklmg {
-  background-color: #eeb710 !important;
-  border: solid 2px #FFF !important;
-}
-
-.betklm4 {
-  height: auto !important;
-  width: 50px !important;
-}
-
-:is(.betklma, .betklm4, .betklm6, .betklm7) svg {
-  background-color: #eeb710 !important;
-  background-image: url("https://i.imgur.com/7MZPTtI.png") !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  background-size: 24px 24px !important;
-  translate: -3% !important;
-}
-
-:is(.betklmc, .betklm5) svg {
-  background-color: #eeb710 !important;
-  background-image: url("https://i.imgur.com/7MZPTtI.png") !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  background-size: 24px 24px !important;
-  translate: 3% !important;
-}
-
-:is(.betklma, .betklmc, .betklm4, .betklm5, .betklm6, .betklm7) svg :is(path, g) {
-  display: none !important;
-  fill: none !important;
-  stroke: none !important;
-}
-
-:is(.betklma, .betklm6) svg {
-  transform: rotate(180deg) !important;
-}
-
-:is(.betklmc, .betklm5) svg {
-  transform: rotate(0deg) !important;
-}
-
-/* 8) Generated by AI badges */
-/* Generated by AI icon */
-.vfrc-icon._1t7e06e0._11kfxpg8 svg {
-  visibility: hidden !important;
-}
-
-.vfrc-icon._1t7e06e0._11kfxpg8::after {
-  content: '' !important;
-  display: inline-block !important;
-  width: 24px !important;
-  height: 24px !important;
-  background-image: url('https://i.imgur.com/aMRosSl.png') !important;
-  background-size: contain !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  transform: translate(-74%, -18%) !important;
-}
-
-/* Generated by AI text */
-._11kfxpg7 {
-  display: inline-block !important;
-  transform: translateX(-10%) !important;
-  font-size: 11.5px !important;
-  color: #FFF !important;
-}
-
-._11kfxpg6 {
-  background-color: #000000 !important;
-  border-radius: 0 0 15px 15px !important;
-}
-
-/* 9) Utilities */
-/* Widget scroll button */
-._1cosygz0 {
-  background-color: #eeb710 !important;
-  background-image: url("https://i.imgur.com/A6bUy8H.png") !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  background-size: 20px 20px !important;
-  border: solid 1.5px #FFF !important;
-}
+  /* 3.2) Start button */
+  --btn-start-text: "SPUSTIT NOVÝ CHAT";
+  --btn-start-transition: background .2s ease;
   
-._1cosygz0 svg {
-  opacity: 0 !important;
-}
-
-/* Footer logo (Creator) */
-.jsli365 {
-  display: inline-block !important;
-  width: 140px !important;
-  height: 35px !important;
-  background-image: url("https://i.imgur.com/sEbIBmF.png") !important;
-  background-size: contain !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  text-indent: 9999px !important;
-  overflow: hidden !important;
-  -webkit-user-drag: none !important;
-  transition: transform 0.6s ease, filter 0.8s ease !important;
-}
-
-.jsli365:hover {
-  transform: scale(1.05) !important;
-  filter: brightness(1) !important;
-}
-
-.jsli365:focus-visible {
-  outline: 2px solid rgba(0,0,0,0.25) !important;
-  outline-offset: 2px !important;
-  transform: scale(1.05) !important;
-  filter: brightness(1) !important;
-}
+  /* 3.2.1) Start button - Default state */
+  --btn-start-bg: #EEB710;
+  --btn-start-text-color: #FFFFFF;
+  --btn-start-border: none;
   
-/* 10) Launcher */
-/* Reset any fixed size */
-.vfrc-button._1q15b0b0.c26d8x0._1q15b0b2.vfrc-launcher.f6dof81._1q15b0b0.c26d8x0._1q15b0b5, button.vfrc-button._1q15b0b0.c26d8x0._1q15b0b2.vfrc-launcher.f6dof81._1q15b0b0.c26d8x0._1q15b0b5, .vfrc-launcher, .f6dof81, .f6dof87.f6dof89, .f6dof86.f6dof88, div.f6dof87.f6dof89, div.f6dof8m.f6dof8o.f6dof8r.f6dof8f, div.f6dof87.f6dof89 {
-  width: auto !important;
-  height: auto !important;
-  min-width: auto !important;
-  min-height: auto !important;
-  max-width: none !important;
-  max-height: none !important;
-}
+  /* 3.2.2) Start button - Hover state */
+  --btn-start-bg-hover: #000000;
+  --btn-start-text-color-hover: #FFFFFF;
+  --btn-start-border-hover: none;
+  
+  /* 3.2.3) Start button - Shine effect */
+  --btn-shine-display: none;
 
-/* Anchor: fix widget container to the viewport */
-._1emja3f9 {
-  position: fixed !important;
-  z-index: 999999 !important;
-}
-
-/* Anchor position */
-._1emja3f9:has(#voiceflow-chat) {
-  bottom: 0 !important;
-  right: 0 !important;
-}
-
-/* Launcher image circle */
-.vfrc-button._1q15b0b0.c26d8x0._1q15b0b2.vfrc-launcher.f6dof81._1q15b0b0.c26d8x0._1q15b0b5:has(img[alt="open chat"]), .vfrc-button._1q15b0b0.c26d8x0._1q15b0b2.vfrc-launcher.f6dof81._1q15b0b0.c26d8x0._1q15b0b5:has(.f6dof8u.f6dof8w.f6dof8h) {
-  width: 75px !important;
-  height: 75px !important;
-  min-width: 75px !important;
-  min-height: 75px !important;
-  max-width: 75px !important;
-  max-height: 75px !important;
-  background-color: #eeb710 !important;
-  border-radius: 50% !important;
-  overflow: hidden !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  box-sizing: border-box !important;
-  transform: none !important;
-  position: fixed !important;
-  bottom: 15px !important;
-  right: 15px !important;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
-}
-
-/* Wrapper that holds the size */
-div.f6dof80:has(img[alt="open chat"]) {
-  width: 80px !important;
-  height: 80px !important;
-  min-width: 80px !important;
-  min-height: 80px !important;
-  max-width: 80px !important;
-  max-height: 80px !important;
-}
-
-.vfrc-button.vfrc-launcher img[alt="open chat"],
-.vfrc-button.vfrc-launcher img.f6dof8u {
-  width: 65px !important;
-  height: 65px !important;
-  border-radius: 50% !important;
-  object-fit: cover !important;
-  transform: scale(1) !important;
-  transform-origin: center !important;
-  transition: transform 180ms ease !important;
-}
-
-.vfrc-button.vfrc-launcher:hover img[alt="open chat"],
-.vfrc-button.vfrc-launcher:focus-visible img[alt="open chat"],
-.vfrc-button.vfrc-launcher:hover img.f6dof8u,
-.vfrc-button.vfrc-launcher:focus-visible img.f6dof8u {
-  transform: scale(1.1) !important;
-}
-
-div._1emja3f9:has(#voiceflow-chat) {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-end !important;
-}
-
-.vfrc-launcher:hover img.f6dof8u,
-.vfrc-launcher:focus-visible img.f6dof8u,
-.vfrc-launcher:hover img[alt="open chat"],
-.vfrc-launcher:focus-visible img[alt="open chat"] {
-transform: scale(1.1) !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-.vfrc-launcher img { transition: none !important; }
-}
-
-/* Wrapper that holds the size */
-div.f6dof80:has(img[alt="open chat"]) {
-  width: 100px !important;
-  height: 100px !important;
-  min-width: 100px !important;
-  min-height: 100px !important;
-  max-width: 100px !important;
-  max-height: 100px !important;
-}
-
-/* Inner wrappers */
-.vfrc-button._1q15b0b0.c26d8x0._1q15b0b2.vfrc-launcher.f6dof81._1q15b0b0.c26d8x0._1q15b0b5:has(img[alt="open chat"]) div.f6dof87.f6dof89, .vfrc-button._1q15b0b0.c26d8x0._1q15b0b2.vfrc-launcher.f6dof81._1q15b0b0.c26d8x0._1q15b0b5:has(img[alt="open chat"]) div.f6dof86.f6dof88 {
-  width: auto !important;
-  height: auto !important;
-  min-width: auto !important;
-  min-height: auto !important;
-  max-width: none !important;
-  max-height: none !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border-radius: 0 !important;
-  overflow: visible !important;
-  box-sizing: border-box !important;
-}
+  /* 3.3) Cancel button */
+  --btn-cancel-text: "ZRUŠIT";
+  --btn-cancel-border-width: 1px;
+  
+  /* 3.3.1) Cancel button - Default state */
+  --btn-cancel-bg: #EFEFEF;
+  --btn-cancel-text-color: #1A1E23;
+  --btn-cancel-border: none;
+  
+  /* 3.3.2) Cancel button - Hover state */
+  --btn-cancel-bg-hover: #E2E2E2;
+  --btn-cancel-text-color-hover: #1A1E23;
+  --btn-cancel-border-hover: none;
 
 
-/* Launcher image */
-button.vfrc-button._1q15b0b0.c26d8x0._1q15b0b2.vfrc-launcher.f6dof81._1q15b0b0.c26d8x0._1q15b0b5:has(svg[viewBox="0 0 32 32"]) {
-  width: 55px !important;
-  height: 55px !important;
-  min-width: 55px !important;
-  min-height: 55px !important;
-  max-width: 55px !important;
-  max-height: 55px !important;
-  background-image: url("https://i.imgur.com/vN46gmt.png") !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  background-size: 36px 36px !important;
-  border-radius: 9999px !important;
-  overflow: hidden !important;
-  transform: none !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin-top: 15px !important;
-  margin-right: 15px !important;
-  margin-bottom: 15px !important;
-  position: relative !important;
-  bottom: 5px !important;
-  right: 10px !important;
-}
+  /* 4) SUBHEADER (title and description under avatar) */
+  /* 4.1) Subheader container */
+  --subheader-padding: 38px 20px 18px;
+  --subheader-avatar-clip: circle(50% at 50% 50%);
 
-/* Wrapper for the SVG */
-div.f6dof80:has(svg[viewBox="0 0 32 32"]), button.vfrc-button._1q15b0b0.c26d8x0._1q15b0b2.vfrc-launcher.f6dof81._1q15b0b0.c26d8x0._1q15b0b5:has(svg[viewBox="0 0 32 32"]) div.f6dof87.f6dof89 {
-  width: 42px !important;
-  height: 42px !important;
-  min-width: 42px !important;
-  min-height: 42px !important;
-  max-width: 42px !important;
-  max-height: 42px !important;
-}
+  /* 4.2) Title */
+  --subheader-title-text: "Konior & Partners";
+  --subheader-title-size: 16px;
+  --subheader-title-weight: 800;
+  --subheader-title-color: #656D75;
+  --subheader-title-align: center;
 
-/* Hide the built-in SVG */
-button.vfrc-button._1q15b0b0.c26d8x0._1q15b0b2.vfrc-launcher.f6dof81._1q15b0b0.c26d8x0._1q15b0b5:has(svg[viewBox="0 0 32 32"]) svg {
-  display: none !important;
-}
+  /* 4.3) Description */
+  --subheader-desc-text: "vás virtuální AI asistent";
+  --subheader-desc-size: 14px;
+  --subheader-desc-color: #656D75;
+  --subheader-desc-weight: 600;
+  --subheader-desc-align: center;
 
-/* Hide system subtitles */
-.t1cwqp2, div.t1cwqp2, .t1cwqp1, div.t1cwqp1, div[class^="t1cwqp"], div[class*="t1cwqp"] {
-  color: transparent !important;
-  font-size: 0 !important;
-  visibility: hidden !important;
-  position: relative !important;
-  display: block !important;
-  height: 30px !important;
-  width: 100% !important;
-  margin: 8px 0 !important;
-}
 
-/* Extra spacing below */
-._6r9xee0 {
-  margin-bottom: 60px !important;
-}
+  /* 5) CHAT BACKGROUND AND FOOTER STRIP */
+  /* 5.1) Chat background */
+  --chat-bg-image: url("https://trixtecheu.github.io/KONIOR/images/konior-background.jpg");
+  --chat-bg-size: cover;
+  --chat-bg-repeat: no-repeat;
+  --chat-bg-position: center center;
+  --chat-bg-color-overlay: transparent;
 
-/* Yellow highlight */
-div._6r9xee3.o231sh1 {
-  position: relative !important;
-  z-index: 0 !important;
-  border-radius: 15px !important;
-  background-color: #eeb710 !important;
-  color: #ffffff !important;
-  opacity: 1 !important;
-  transform-origin: center center !important;
-}
+  /* 5.2) Footer strip */
+  --footer-bg-color: transparent;
 
-div._6r9xee3.o231sh1 > * {
-  position: relative !important;
-  z-index: 1 !important;
+  /* 5.3) Footer start button (in input area initially) */
+  --footer-start-btn-bg: #FFFFFF;
+  --footer-start-btn-bg-image: none;
+  --footer-start-btn-shadow: none;
+  --footer-start-btn-border: none;
+  --footer-start-btn-opacity: 1;
+
+
+  /* 6) CHATBOT AVATAR (next to assistant messages) */
+  --chat-avatar-width: 32px;
+  --chat-avatar-height: 32px;
+  --chat-avatar-radius: 50%;
+
+
+  /* 7) CHAT BUBBLES AND TEXT */
+  /* 7.1) Message container */
+  --message-text-align: left;
+  --message-margin-left: 0;
+  --chat-bubble-radius: 15px;
+
+  /* 7.2) User message (right side) */
+  --user-msg-bg: #EEB710;
+  --user-msg-text-color: #FFFFFF;
+  --user-msg-weight: 600;
+  --user-msg-size: 13.5px;
+  --user-msg-padding: 12px 16px;
+  --user-msg-width: fit-content;
+  --user-msg-shadow: none;
+  --user-msg-border: none;
+
+  /* 7.3) System/Assistant message (left side) */
+  --system-msg-size: 14px;
+  --system-msg-line-height: 21px;
+  --system-msg-text-color: #464B52;
+  --system-msg-weight: normal;
+  --system-msg-letter-spacing: normal;
+
+
+  /* 8) MAIN ACTION BUTTONS (in assistant replies) */
+  /* 8.1) Button container */
+  --main-btn-container-padding: 45px;
+  --main-btn-alignment: flex-start;
+  --main-btn-flex-wrap: wrap;
+  --main-btn-gap: 8px;
+
+  /* 8.2) Button typography and geometry */
+  --main-btn-font-size: 14px;
+  --main-btn-font-weight: 600;
+  --main-btn-height: 40px;
+  --main-btn-padding: 0px 18px 0px 18px;
+  --main-btn-radius: 5px;
+  --main-btn-margin: 0;
+  --main-btn-shadow: none;
+  --main-btn-line-height: normal;
+  --main-btn-overflow: hidden;
+  --main-btn-cursor: pointer;
+  --main-btn-transition: background .2s ease, color .2s ease;
+  --main-btn-focus-outline: none;
+  --main-btn-focus-shadow: 0 0 0 3px rgba(0, 123, 204, 0.25);
+
+  /* 8.3) Main button - Default state */
+  --main-btn-bg: #EEB710;
+  --main-btn-text-color: #FFFFFF;
+  --main-btn-border: none;
+
+  /* 8.4) Main button - Hover state */
+  --main-btn-bg-hover: #000000;
+  --main-btn-text-color-hover: #FFFFFF;
+  --main-btn-border-hover: none;
+
+  /* 8.5) Main button - Shine effect */
+  --main-btn-shine-display: none;
+
+
+  /* 9) STATUS LINE (chat has ended) */
+  --system-status-margin-top: 15px;
+  --system-status-margin-bottom: 15px;
+  --system-status-font-size-reset: 0;
+  --system-status-text: "Chat byl ukončen";
+  --system-status-color: #000000;
+  --system-status-size: 12px;
+  --system-status-weight: 600;
+  --system-status-line-height: 1.4;
+  --system-status-bg: transparent;
+  --system-status-padding: 0;
+  --system-status-line-color: #000000;
+
+
+  /* 10) CAROUSEL (cards with image, title, description, button) */
+  /* 10.1) Card structure */
+  --card-bg-color: #FFFFFF;
+  --card-radius: 15px;
+  --card-border: 1px solid transparent;
+  --card-overflow: hidden;
+
+  /* 10.2) Card image */
+  --card-img-width: calc(100% - 30px);
+  --card-img-height: auto;
+  --card-img-fit: cover;
+  --card-img-radius: 15px 15px 0 0;
+  --card-img-margin: 15px 15px 0 15px;
+
+  /* 10.3) Card header and description */
+  --card-header-size: 14px;
+  --card-header-weight: 600;
+  --card-header-color: #000000;
+  --card-header-spacing: 0.02em;
+  --card-header-padding: 0;
+  --card-header-margin-top: 0;
+  --card-header-line-height: 1.4;
+
+  --card-desc-size: 12px;
+  --card-desc-color: #333333;
+  --card-desc-line-height: 1.5;
+  --card-desc-padding: 0;
+  --card-desc-weight: normal;
+  --card-desc-letter-spacing: normal;
+  --card-content-padding: 15px;
+
+  /* 10.4) Card button */
+  --card-btn-height: 40px;
+  --card-btn-radius: 5px;
+  --card-btn-padding-top: 2px;
+  --card-btn-font-size: 14px;
+  --card-btn-font-weight: 600;
+  --card-btn-spacing: 0.05em;
+  --card-btn-line-height: normal;
+  --card-btn-shadow: none;
+  --card-btn-overflow: hidden;
+  --card-btn-cursor: pointer;
+  --card-btn-transition: background .2s ease, border .2s ease, color .3s ease;
+  --card-btn-focus-outline: none;
+  --card-btn-focus-shadow: 0 0 0 3px rgba(0, 123, 204, 0.25);
+
+  /* 10.5) Card button - Default state */
+  --card-btn-bg: #EEB710;
+  --card-btn-text-color: #FFFFFF;
+  --card-btn-border: none;
+  
+  /* 10.6) Card button - Hover state */
+  --card-btn-bg-hover: #000000;
+  --card-btn-text-color-hover: #FFFFFF;
+  --card-btn-border-hover: none;
+
+  /* 10.7) Card button - Extras */
+  --card-btn-shine-display: none;
+  --card-btn-shine-color: linear-gradient(115deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.32) 50%, rgba(255, 255, 255, 0) 100%);
+
+  --card-btn-icon-url: url("https://trixtecheu.github.io/KONIOR/images/icons/icon-link.svg");
+  --card-btn-icon-display: block;
+  --card-btn-icon-size: 14px;
+  --card-btn-icon-gap: 9px;
+  --card-btn-icon-move: 0px;
+
+  /* 10.8) Carousel navigation */
+  --carousel-icon-url: url("https://trixtecheu.github.io/KONIOR/images/icons/icon-arrow.svg");
+  --carousel-rotate-left: 0deg;
+  --carousel-rotate-right: 0deg;
+  --carousel-btn-size: 42px;
+  --carousel-btn-radius: 50%;
+  --carousel-btn-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --carousel-btn-z-index: 2;
+  --carousel-btn-transition: transform 0.2s ease, background-color 0.2s ease, border 0.2s ease, color 0.2s ease;
+  --carousel-icon-inner-size: 20px 20px;
+  
+  /* 10.8.1) Carousel button - Default state */
+  --carousel-btn-bg: #EEB710;
+  --carousel-btn-border: 2px solid #FFFFFF;
+  
+  /* 10.8.2) Carousel button - Hover state */
+  --carousel-btn-bg-hover: #EEB710;
+  --carousel-btn-border-hover: 2px solid #FFFFFF;
+  --carousel-btn-scale-hover: 1.05;
+  --carousel-icon-url-hover: url("https://trixtecheu.github.io/KONIOR/images/icons/icon-arrow.svg");
+
+
+  /* 11) AI BADGE AND SCROLL BUTTON */
+  /* 11.1) AI badge */
+  --ai-icon-image: url('https://trixtecheu.github.io/KONIOR/images/icons/icon-ai-sparkles.png');
+  --ai-icon-width: 22px;
+  --ai-icon-height: 22px;
+  --ai-label-bg: #000000;
+  --ai-label-radius: 0 0 15px 15px;
+  --ai-label-padding: 9px 16px 8px;
+  --ai-label-gap: 7px;
+  --ai-badge-text: "Odpověď byla generována pomocí AI";
+  --ai-text-color: #FFFFFF;
+  --ai-text-weight: 600;
+  --ai-text-size: 11.5px;
+  --ai-text-line-height: normal;
+  --ai-text-letter-spacing: normal;
+
+  /* 11.2) Scroll button */
+  --scroll-btn-bg-color: #EEB710;
+  --scroll-btn-icon: url("https://trixtecheu.github.io/KONIOR/images/icons/icon-scroll-down.svg");
+  --scroll-btn-size: 16px 16px;
+  --scroll-btn-border: 2px solid #FFFFFF;
+
+
+  /* 12) FOOTER INPUT AND SEND BUTTON */
+  /* 12.1) Input placeholder */
+  --input-placeholder-size: 14.5px;
+  --input-placeholder-spacing: 0.03em;
+  --input-placeholder-color: #464646;
+  --input-placeholder-opacity: 1;
+  --input-placeholder-weight: normal;
+
+  /* 12.2) Input container */
+  --input-bg-color: #FFFFFF;
+  --input-border: 1px solid #E2E4E5;
+  --input-radius: 25px;
+  --input-shadow: 0 3px 4px rgba(0, 0, 0, 0.05), 0 8px 42px -16px rgba(0, 0, 0, 0.14);
+  --input-transition: border .15s ease, box-shadow .15s ease, border-radius .15s ease, opacity .15s ease;
+  --input-scrollbar-width: none;
+  --input-textarea-border-color: transparent;
+  --input-resize: none;
+  --input-outline: transparent 0px;
+
+  /* 12.3) Input text */
+  --input-font-size: 14.5px;
+  --input-text-color: #1A1E23;
+  --input-line-height: 20px;
+  --input-text-padding: 2px 0 0;
+
+  /* 12.4) Send button - Geometry */
+  --send-btn-size: 36px;
+  --send-btn-radius: 50%;
+  --send-icon-size: 26px;
+  --send-icon-url: url("https://trixtecheu.github.io/KONIOR/images/icons/icon-send.svg");
+  --send-btn-transition: all 0.2s ease;
+  --send-btn-border: none;
+
+  /* 12.5) Send button - Disabled state */
+  --send-btn-disabled-bg: #F1F2F2;
+  --send-btn-disabled-color: #656D75;
+
+  /* 12.6) Send button - Enabled state */
+  --send-btn-enabled-bg: #EEB710;
+  --send-btn-enabled-color: #FFFFFF;
+  --send-btn-shadow: 0 -1px rgba(0, 0, 0, 0.16) inset;
+
+  /* 12.7) Send button - Hover state */
+  --send-btn-hover-bg: #EEB710;
+  --send-btn-hover-scale: 1.05;
+
+
+  /* 13) FOOTER LOGO */
+  --footer-logo-image: url("https://trixtecheu.github.io/KONIOR/images/badge-powered-by-trix-white.png");
+  --footer-logo-width: 150px;
+  --footer-logo-height: 35px;
+
+
+  /* 14) LAUNCHER BUTTON */
+  /* 14.1) Launcher base properties */
+  --launcher-border-radius: 50%;
+  --launcher-border: 2px solid #EEB710;
+  --launcher-transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --launcher-z-index: 2147483647;
+
+  /* 14.2) Launcher - Open state (Default) */
+  --launcher-open-width: 75px;
+  --launcher-open-height: 75px;
+  --launcher-open-bg: #EEB710;
+  --launcher-open-shadow: none;
+  --launcher-open-icon-size: 65px;
+
+  /* 14.3) Launcher - Open state (Hover) */
+  --launcher-open-hover-scale: 1.05;
+  --launcher-open-hover-rotate: 0deg;
+
+  /* 14.4) Launcher - Close state (Default) */
+  --launcher-close-width: 50px;
+  --launcher-close-height: 50px;
+  --launcher-close-bg: #EEB710;
+  --launcher-close-shadow: none;
+  --launcher-close-icon-size: 20px;
+  --launcher-close-icon-color: #FFFFFF;
+  --launcher-close-icon-url: url("https://trixtecheu.github.io/KONIOR/images/icons/icon-arrow.svg");
+  --launcher-close-rotate: 90deg;
+
+  /* 14.5) Launcher - Close state (Hover) */
+  --launcher-close-hover-scale: 1.05;
+
+  /* 14.6) Proactive message card */
+  --proactive-bg: #FFFFFF;
+  --proactive-text-color: #1A1E23;
+  --proactive-border-radius: 15px;
+  --proactive-font-size: 14.5px;
+  --proactive-font-weight: 500;
+
+
+  /* 15) PRIVACY POLICY WINDOW */
+  /* 15.1) Privacy title */
+  --privacy-title-size: 16px;
+  --privacy-title-weight: 600;
+  --privacy-title-line-height: 1.5;
+  --privacy-title-color: #000000;
+  --privacy-title-align: center;
+  --privacy-title-spacing: -0.01em;
+  --privacy-title-margin: 0 0 12px 0;
+
+  /* 15.2) Privacy text */
+  --privacy-text-size: 13px;
+  --privacy-text-line-height: 1.5;
+  --privacy-text-color: #464B52;
+  --privacy-text-align: center;
+  --privacy-text-margin: 0;
+  --privacy-text-weight: normal;
+  --privacy-text-letter-spacing: normal;
+
+  /* 15.3) Privacy icon */
+  --privacy-icon-size: 22px;
+  --privacy-icon-url: url("https://trixtecheu.github.io/KONIOR/images/icons/icon-lock.png");
+  --privacy-icon-margin: 0;
+  --privacy-icon-transform: translateY(0px);
+
+  /* 15.4) Privacy buttons - Shared properties */
+  --privacy-btn-radius: 5px;
+  --privacy-btn-padding: 24px 0px 12px;
+  --privacy-btn-font-size: 14px;
+  --privacy-btn-weight: 600;
+  --privacy-btn-spacing: 0.05em;
+  --privacy-btn-line-height: 1.4;
+  --privacy-btn-transition: background .2s ease;
+
+  /* 15.5) Privacy primary button (Accept) - Default state */
+  --privacy-pri-bg: #EEB710;
+  --privacy-pri-text: #FFFFFF;
+  --privacy-pri-border: none;
+
+  /* 15.6) Privacy primary button (Accept) - Hover state */
+  --privacy-pri-bg-hover: #000000;
+  --privacy-pri-text-hover: #FFFFFF;
+  --privacy-pri-border-hover: none;
+
+  /* 15.7) Privacy primary button (Accept) - Shine effect */
+  --privacy-pri-shine-display: none;
+  --privacy-pri-shine-color: linear-gradient(115deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.32) 50%, rgba(255, 255, 255, 0) 100%);
+
+  /* 15.8) Privacy secondary button (Decline) - Default state */
+  --privacy-sec-bg: #EFEFEF;
+  --privacy-sec-text: #1A1E23;
+  --privacy-sec-border: none;
+
+  /* 15.9) Privacy secondary button (Decline) - Hover state */
+  --privacy-sec-bg-hover: #E2E2E2;
+
+
+  /* 16) RESPONSIVE DESIGN & CONTAINER STABILITY */
+  --chat-bg-color: #FFFFFF;
+  --chat-radius: 15px;
+  --chat-shadow: 0 0 0 1px rgba(22, 26, 30, 0.06), 0 8px 80px rgba(22, 26, 30, 0.16);
 }
