@@ -41,7 +41,7 @@
   /* 3) SYSTEM BUTTONS (start new chat, cancel) */
   /* 3.1) Shared button properties */
   --btn-font-size: 14px;
-  --btn-font-weight: 600;
+  --btn-font-weight: 700;
   --btn-padding: 16px 12px;
   --btn-radius: 5px;
   --btn-focus-shadow: rgba(0, 123, 204, 0.25);
@@ -133,7 +133,7 @@
   /* 7.2) User message (right side) */
   --user-msg-bg: #EEB710;
   --user-msg-text-color: #FFFFFF;
-  --user-msg-weight: 600;
+  --user-msg-weight: 700;
   --user-msg-size: 13.5px;
   --user-msg-padding: 12px 16px;
   --user-msg-width: fit-content;
@@ -157,7 +157,7 @@
 
   /* 8.2) Button typography and geometry */
   --main-btn-font-size: 14px;
-  --main-btn-font-weight: 600;
+  --main-btn-font-weight: 700;
   --main-btn-height: 40px;
   --main-btn-padding: 0px 18px 0px 18px;
   --main-btn-radius: 5px;
@@ -191,7 +191,7 @@
   --system-status-text: "Chat byl ukončen";
   --system-status-color: #000000;
   --system-status-size: 12px;
-  --system-status-weight: 600;
+  --system-status-weight: 700;
   --system-status-line-height: 1.4;
   --system-status-bg: transparent;
   --system-status-padding: 0;
@@ -214,7 +214,7 @@
 
   /* 10.3) Card header and description */
   --card-header-size: 14px;
-  --card-header-weight: 600;
+  --card-header-weight: 700;
   --card-header-color: #000000;
   --card-header-spacing: 0.02em;
   --card-header-padding: 0;
@@ -234,7 +234,7 @@
   --card-btn-radius: 5px;
   --card-btn-padding-top: 2px;
   --card-btn-font-size: 14px;
-  --card-btn-font-weight: 600;
+  --card-btn-font-weight: 700;
   --card-btn-spacing: 0.05em;
   --card-btn-line-height: normal;
   --card-btn-shadow: none;
@@ -297,7 +297,7 @@
   --ai-label-gap: 7px;
   --ai-badge-text: "Odpověď byla generována pomocí AI";
   --ai-text-color: #FFFFFF;
-  --ai-text-weight: 600;
+  --ai-text-weight: 700;
   --ai-text-size: 11.5px;
   --ai-text-line-height: normal;
   --ai-text-letter-spacing: normal;
@@ -404,7 +404,7 @@
   /* 15) PRIVACY POLICY WINDOW */
   /* 15.1) Privacy title */
   --privacy-title-size: 16px;
-  --privacy-title-weight: 600;
+  --privacy-title-weight: 700;
   --privacy-title-line-height: 1.5;
   --privacy-title-color: #000000;
   --privacy-title-align: center;
@@ -430,7 +430,7 @@
   --privacy-btn-radius: 5px;
   --privacy-btn-padding: 12px 16px;
   --privacy-btn-font-size: 14px;
-  --privacy-btn-weight: 600;
+  --privacy-btn-weight: 700;
   --privacy-btn-spacing: 0.05em;
   --privacy-btn-line-height: 1.4;
   --privacy-btn-transition: background .2s ease;
